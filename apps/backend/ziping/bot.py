@@ -57,10 +57,8 @@ class BotServiceCallbackHandler(BaseCallbackHandler):
             
 # Bot Class
 class MyBot(ActivityHandler):
+    
     def __init__(self):
-        super().__init__()
-        
-        self.MODEL_TYPES = ["GPT-35-Turbo-16k","GPT-4-32k"]
         self.model_name = os.environ.get("AZURE_OPENAI_MODEL_NAME") 
     
     # Function to show welcome message to new users
@@ -69,28 +67,10 @@ class MyBot(ActivityHandler):
             if member_added.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity(WELCOME_MESSAGE)
     
-    async def _send_model_actions(self, turn_context: TurnContext):
-        buttons = []
-        
-        for model in self.MODEL_TYPES:
-            buttons.append(CardAction(
-                title=model,
-                type=ActionTypes.im_back,     
-                display_text=model,
-                value="/model_"+model,       
-            ))
-
-        card = HeroCard(
-            text="GPT 모델을 선택해 주세요",
-            buttons=buttons
-        )
-        
-        reply = MessageFactory.attachment(CardFactory.hero_card(card))
-        
-        await turn_context.send_activity(reply)
     
     # See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-    async def on_message_activity(self, turn_context: TurnContext):      
+    async def on_message_activity(self, turn_context: TurnContext):
+             
         # Extract info from TurnContext - You can change this to whatever , this is just one option 
         session_id = turn_context.activity.conversation.id
         user_id = turn_context.activity.from_property.id + "-" + turn_context.activity.channel_id
