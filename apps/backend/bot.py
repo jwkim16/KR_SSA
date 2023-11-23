@@ -75,7 +75,7 @@ class MyBot(ActivityHandler):
         for model in self.MODEL_TYPES:
             buttons.append(CardAction(
                 title=model,
-                type=ActionTypes.im_back,     
+                type=ActionTypes.im_back,
                 display_text=model,
                 value="/model_"+model,       
             ))
